@@ -24,7 +24,26 @@ class MyCalendar:
 		self.year = 2021 
 		self.saveName ="myCalendarPDF.pdf"
 
+	###############################################################
+	def makeYear(self):
+
+		# saveName = "calendar3.pdf"
+		myCanvas = canvas.Canvas(self.saveName, pagesize=A4)
+
+		row = 0
+		self.setMonthPositions()
+		# year = 2019
+		for x in range(0,12):
+			if x % 3 == 0:
+				row += 1
+			self.printMonth(x,self.year, self.monthPositions[x][0], self.monthPositions[x][1], myCanvas )
+		myCanvas.setFont( 'Helvetica', 16 )	
+		myCanvas.drawCentredString(A4[0] / 2 ,  A4[1] - 1.5 * cm, str(self.year))
+		self.fillMonthNames(myCanvas)
+		myCanvas.save()
+
 	# Positions for all the months from the left edge and the top edge, in cm
+	###############################################################
 	def setMonthPositions(self):
 		letftMargin = 2.0  * cm 
 
@@ -36,8 +55,7 @@ class MyCalendar:
 				row += 1
 			
 			self.monthPositions.append( ( letftMargin + (x % 3 ) * verticalGap, row * 6.5 * cm + 2 * cm ) )
-
-
+	###############################################################
 	def fillMonthNames(self, canvas):
 		for x in range(0,12):
 			textobject = canvas.beginText()
@@ -45,11 +63,13 @@ class MyCalendar:
 			textobject.setFont("Helvetica", 14)
 			textobject.textOut(calendar.month_name[x + 1])
 			canvas.drawText(textobject)
-	
+
+	###############################################################
 	def coord(self, x, y, unit=1):
 		x, y = x * unit, A4[1] -  y * unit
 		return x, y
 
+	###############################################################
 	def printMonth(self, month, year, x, y, myCanvas):
 		monthMatrix= []
 		monthMatrix.insert(0,self.days)  
@@ -94,29 +114,7 @@ class MyCalendar:
 		t.wrapOn(myCanvas, A4[0], A4[1])
 		t.drawOn(myCanvas, *self.coord(x, y,1))
 
-
-	###############################################################
-
-	def makeYear(self):
-
-		# saveName = "calendar3.pdf"
-		myCanvas = canvas.Canvas(self.saveName, pagesize=A4)
-
-		row = 0
-		self.setMonthPositions()
-		# year = 2019
-		for x in range(0,12):
-			if x % 3 == 0:
-				row += 1
-			self.printMonth(x,self.year, self.monthPositions[x][0], self.monthPositions[x][1], myCanvas )
-		myCanvas.setFont( 'Helvetica', 16 )	
-		myCanvas.drawCentredString(A4[0] / 2 ,  A4[1] - 1.5 * cm, str(self.year))
-		self.fillMonthNames(myCanvas)
-		myCanvas.save()
-
-
 #################################################################
 
 cal = MyCalendar()
-
 cal.makeYear()
