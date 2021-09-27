@@ -8,7 +8,6 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT, TA_CENTER
 
 
-
 import os
 import datetime
 from calendar import monthrange
@@ -25,9 +24,11 @@ class MyCalendar:
 		self.saveName ="myCalendarPDF.pdf"
 
 	###############################################################
-	def makeYear(self):
+	def makeYear(self,year, name):
 
 		# saveName = "calendar3.pdf"
+		self.year = year
+		self.saveName = name + ".pdf"
 		myCanvas = canvas.Canvas(self.saveName, pagesize=A4)
 
 		row = 0
@@ -117,4 +118,5 @@ class MyCalendar:
 #################################################################
 
 cal = MyCalendar()
-cal.makeYear()
+cal.makeYear(2022, name="2022 calendar")
+
